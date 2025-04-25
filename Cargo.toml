@@ -1,0 +1,31 @@
+[package]
+name = "dotrelay-bridge"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "dotrelay_bridge"
+path = "src/lib.rs"
+
+[dependencies]
+ink_primitives = { version = "4.0.0", default-features = false }
+ink_metadata = { version = "4.0.0", default-features = false, features = ["derive"], optional = true }
+ink_env = { version = "4.0.0", default-features = false }
+ink_storage = { version = "4.0.0", default-features = false }
+ink_lang = { version = "4.0.0", default-features = false }
+ink_prelude = { version = "4.0.0", default-features = false }
+ink_contract = { version = "4.0.0", default-features = false }
+ink_contract_env = { version = "4.0.0", default-features = false }
+
+[features]
+default = ["std"]
+std = [
+    "ink_metadata/std",
+    "ink_env/std",
+    "ink_storage/std",
+    "ink_lang/std",
+    "ink_prelude/std",
+    "ink_contract/std",
+    "ink_contract_env/std"
+]
+ink-as-dependency = []
