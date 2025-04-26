@@ -7,6 +7,8 @@ pub enum Error {
     InsufficientBalance,
     InvalidAmount,
     NotAuthorized,
+    AlreadyPaused,
+    AlreadyUnpaused,
     Paused,
     TransferNotFound,
     TokenNotRegistered,

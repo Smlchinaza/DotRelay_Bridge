@@ -25,7 +25,8 @@ pub mod dotrelay_bridge {
     impl DotRelayBridge {
         #[ink(constructor)]
         pub fn new() -> Self {
-            Self { hub: bridge_hub::BridgeHub::new() }
+            let caller = Self::env().caller();
+            Self { hub: bridge_hub::BridgeHub::new(caller) }
         }
 
         #[ink(message)]
@@ -55,6 +56,34 @@ pub mod dotrelay_bridge {
             transfer_id: u64,
         ) -> Result<types::transfer::TransferStatus, types::errors::Error> {
             self.hub.query_transfer_status(transfer_id)
+        }
+
+        /// Pause contract (admin only)
+        #[ink(message)]
+        pub fn pause(&mut self) -> Result<(), types::errors::Error> {
+            let caller = Self::env().caller();
+            self.hub.pause(caller)
+        }
+
+        /// Unpause contract (admin only)
+        #[ink(message)]
+        pub fn unpause(&mut self) -> Result<(), types::errors::Error> {
+            let caller = Self::env().caller();
+            self.hub.unpause(caller)
+        }
+
+        /// Set fee rates (admin only)
+        #[ink(message)]
+        pub fn set_fee_rates(&mut self, base_fee: Balance, per_unit_fee: Balance) -> Result<(), types::errors::Error> {
+            let caller = Self::env().caller();
+            self.hub.set_fee_rates(caller, base_fee, per_unit_fee)
+        }
+
+        /// Whitelist a token (admin only)
+        #[ink(message)]
+        pub fn whitelist_token(&mut self, chain_id: u32, asset_id: Hash, metadata: Vec<u8>) -> Result<(), types::errors::Error> {
+            let caller = Self::env().caller();
+            self.hub.whitelist_token(caller, chain_id, asset_id, metadata)
         }
     }
 }
